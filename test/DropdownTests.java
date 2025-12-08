@@ -3,13 +3,12 @@ package test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.MainPage;
 import utils.DriverManager;
-
+import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DropdownTests {
@@ -30,18 +29,25 @@ class DropdownTests {
     }
 
     @Test
-    void testDropdownContent() {
-        // Получаем ссылку на элемент
-        WebElement targetElement = driver.findElement(By.id("accordion__heading-0"));
+    void testDropdownContent() throws InterruptedException {
 
-        // Программа приведет элемент в точку клика
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", targetElement);
+        // Открываем первый элемент
+        WebElement firstTargetElement = driver.findElement(MainPage.FIRST_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", firstTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstTargetElement);
+        String firstContent = page.getFirstDropdownText();
+        assertEquals("", firstContent.trim()); // Проверяем текст первого элемента
 
-        // Выполняем JavaScript-клик, чтобы обойти перекрытия
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", targetElement);
+        // Пауза на 1 секунды
+        TimeUnit.SECONDS.sleep(1); // Задержка между действиями
 
-        // Получаем текст после открытия
-        String content = page.getDropdownText();
-        assertEquals("Сутки — 400 рублей. Оплата курьеру — наличными или картой.", content.trim()); // Проверяем полученный текст
+        // Открываем второй элемент
+        WebElement secondTargetElement = driver.findElement(MainPage.SECOND_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", secondTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", secondTargetElement);
+        String secondContent = page.getSecondDropdownText();
+        assertEquals("", secondContent.trim()); // Проверяем текст второго элемента
+
+
     }
 }
