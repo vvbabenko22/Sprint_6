@@ -38,8 +38,8 @@ class DropdownTests {
         String firstContent = page.getFirstDropdownText();
         assertEquals("", firstContent.trim()); // Проверяем текст первого элемента
 
-        // Пауза на 1 секунды
-        TimeUnit.SECONDS.sleep(1); // Задержка между действиями
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
 
         // Открываем второй элемент
         WebElement secondTargetElement = driver.findElement(MainPage.SECOND_TARGET_ELEMENT);
@@ -48,6 +48,65 @@ class DropdownTests {
         String secondContent = page.getSecondDropdownText();
         assertEquals("", secondContent.trim()); // Проверяем текст второго элемента
 
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
+
+        // Открываем третий элемент
+        WebElement thirdTargetElement = driver.findElement(MainPage.THIRD_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", thirdTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", thirdTargetElement);
+        String thirdContent = page.getThirdDropdownText();
+        assertEquals("", thirdContent.trim()); // Проверяем текст третьего элемента
+
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
+
+        // Открываем четвёртый элемент
+        WebElement fourthTargetElement = driver.findElement(MainPage.FOURTH_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fourthTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fourthTargetElement);
+        String fourthContent = page.getFourthDropdownText();
+        assertEquals("", fourthContent.trim()); // Проверяем текст четвёртого элемента
+
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
+
+        // Открываем пятый элемент
+        WebElement fifthTargetElement = driver.findElement(MainPage.FIFTH_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fifthTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fifthTargetElement);
+        String fifthContent = page.getFifthDropdownText();
+        assertEquals("", fifthContent.trim()); // Проверяем текст пятого элемента
+
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
+
+        // Открываем шестой элемент
+        WebElement sixthTargetElement = driver.findElement(MainPage.SIXTH_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", sixthTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", sixthTargetElement);
+        String sixthContent = page.getSixthDropdownText();
+        assertEquals("", sixthContent.trim()); // Проверяем текст шестого элемента
+
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
+
+        // Открываем седьмой элемент
+        WebElement seventhTargetElement = driver.findElement(MainPage.SEVENTH_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", seventhTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", seventhTargetElement);
+        String seventhContent = page.getSeventhDropdownText();
+        assertEquals("", seventhContent.trim()); // Проверяем текст седьмого элемента
+
+        // Пауза на 1 секунду
+        TimeUnit.SECONDS.sleep(1);
+
+        // Открываем восьмой элемент
+        WebElement eightTargetElement = driver.findElement(MainPage.EIGHT_TARGET_ELEMENT);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", eightTargetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", eightTargetElement);
+        String eightContent = page.getEightDropdownText();
+        assertEquals("", eightContent.trim()); // Проверяем текст восьмого элемента
 
     }
 }
