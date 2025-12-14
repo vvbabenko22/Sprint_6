@@ -21,6 +21,7 @@ class DropdownTests {
         driver = DriverManager.getFirefoxDriver(); // Только Firefox
         page = new MainPage(driver);
         page.open(); // Открываем страницу перед каждым тестом
+        driver.manage().window().maximize();
     }
 
     @AfterEach

@@ -2,6 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class MainPage {
 
@@ -26,6 +30,13 @@ public class MainPage {
     public static final By DROPDOWN_TEXT_SIXTH_LOCATOR = By.xpath("//div[@id='accordion__heading-5']/following::p[1]");
     public static final By DROPDOWN_TEXT_SEVENTH_LOCATOR = By.xpath("//div[@id='accordion__heading-6']/following::p[1]");
     public static final By DROPDOWN_TEXT_EIGHT_LOCATOR = By.xpath("//div[@id='accordion__heading-7']/following::p[1]");
+
+    // Локаторы кнопок Заказать
+    private final By UPPER_ORDER_BUTTON = By.xpath(".//*[@class='Button_Button__ra12g']");
+    private final By LOWER_ORDER_BUTTON = By.xpath(".//*[@class='Button_Button__ra12g Button_Middle__1CSJM']");
+
+    // Локатор кнопки Принять куки
+    private final By COOKIE_ACCEPT_BUTTON = By.xpath("//button[@id='rcc-confirm-button']");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -76,4 +87,27 @@ public class MainPage {
         return driver.findElement(DROPDOWN_TEXT_EIGHT_LOCATOR).getText();
     }
 
+    // Метод для нажатия на верхнюю кнопку Заказать
+    public void clickUpperOrderButton() {
+        driver.findElement(UPPER_ORDER_BUTTON).click();
+    }
+
+    // Метод для нажатия на нижнюю кнопку Заказать
+    public void clickLowerOrderButton() {
+        driver.findElement(LOWER_ORDER_BUTTON).click();
+    }
+
+    // Метод для принятия cookie
+    public void acceptCookies() {
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.elementToBeClickable(COOKIE_ACCEPT_BUTTON))
+                .click();
+    }
+
+    // Метод возвращения на главную страницу
+    public void goBackToHomepage() {
+        driver.get("https://qa-scooter.praktikum-services.ru"); // Перезагружаем страницу
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.urlContains("scooter")); // Ждем загрузки домашней страницы
+    }
 }
