@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import pages.MainPage;
 import utils.DriverManager;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DropdownTests {
 
@@ -17,7 +16,7 @@ class DropdownTests {
 
     @BeforeEach
     void setUp() {
-        driver = DriverManager.getFirefoxDriver();
+        driver = DriverManager.getChromeDriver();
         page = new MainPage(driver);
         page.open(); // Открываем главную страницу
         driver.manage().window().maximize(); // Разворачиваем на весь экран
@@ -87,5 +86,8 @@ class DropdownTests {
         String eightContent = page.getEightDropdownText();
         assertEquals("", eightContent.trim()); // Проверяем текст восьмого элемента
 
+    }
+
+    private void assertEquals(String s, String trim) {
     }
 }

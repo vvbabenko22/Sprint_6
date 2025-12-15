@@ -3,9 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
-import java.time.Duration;
 
 public class SecondOrderPage {
 
@@ -40,7 +38,6 @@ public class SecondOrderPage {
     // Метод для выбора даты доставки
     public void setDeliveryDate(String deliveryDate) {
         scrollToElement(DATE_FIELD);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(DATE_FIELD).sendKeys(deliveryDate);
     }
 
@@ -64,28 +61,24 @@ public class SecondOrderPage {
     // Метод для заполнения комментария
     public void addComment(String comment) {
         scrollToElement(COMMENT_FIELD);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(COMMENT_FIELD).sendKeys(comment);
     }
 
     // Метод для отправки заказа
     public void placeOrder() {
         scrollToElement(PLACE_ORDER_BUTTON);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(PLACE_ORDER_BUTTON).click();
     }
 
     // Метод для подтверждения заказа
     public void confirmOrder() {
         scrollToElement(CONFIRM_ORDER_BUTTON);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(CONFIRM_ORDER_BUTTON).click();
     }
 
     // Метод для проверки наличия сообщения об успешном заказе
     public boolean isSuccessMessageDisplayed() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(10));
             return true;
         } catch (Exception e) {
             return false;
@@ -102,5 +95,4 @@ public class SecondOrderPage {
         placeOrder();
         confirmOrder();
     }
-
 }

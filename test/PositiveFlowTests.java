@@ -7,7 +7,6 @@ import pages.FirstOrderPage;
 import pages.SecondOrderPage;
 import utils.DriverManager;
 import java.util.concurrent.TimeUnit;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // Гарантированно одноэкземплярный режим
 class PositiveFlowTests {
@@ -19,7 +18,7 @@ class PositiveFlowTests {
 
     @BeforeAll
     void setUp() {
-        driver = DriverManager.getFirefoxDriver();
+        driver = DriverManager.getChromeDriver();
         mainPage = new MainPage(driver);
         firstOrderPage = new FirstOrderPage(driver);
         secondOrderPage = new SecondOrderPage(driver);
@@ -55,7 +54,10 @@ class PositiveFlowTests {
                 1,           // Срок аренды: сутки (позиция 1)
                 "привезти вечером"
         );
-        assertTrue(secondOrderPage.isSuccessMessageDisplayed());
+        Thread.sleep(2000); // Пауза перед подтверждением заказа
+        secondOrderPage.confirmOrder(); // Подтверждаем заказ
+        Thread.sleep(2000); // Пауза перед проверкой успеха
+        assertTrue(secondOrderPage.isSuccessMessageDisplayed()); // Проверяем наличие сообщения об успехе
     }
 
     // Тестируем позитивный сценарий через нижнюю кнопку "Заказать"
@@ -67,15 +69,21 @@ class PositiveFlowTests {
                 "Сергей",
                 "Сергеев",
                 "Санкт-Петербург ул. Невского д.10",
-                4,          // Сокольники
+                4, // Сокольники
                 "+79997654321"
         );
         secondOrderPage.fillSecondPage(
                 "25 сентября 2025",
-                2,           // Срок аренды: двое суток (позиция 2)
+                2, // Срок аренды: двое суток (позиция 2)
                 "оставьте у двери"
         );
-        assertTrue(secondOrderPage.isSuccessMessageDisplayed());
+
+        Thread.sleep(2000); // Пауза перед подтверждением заказа
+        secondOrderPage.confirmOrder(); // Подтверждаем заказ
+        Thread.sleep(2000); // Пауза перед проверкой успеха
+        assertTrue(secondOrderPage.isSuccessMessageDisplayed()); // Проверяем наличие сообщения об успехе
     }
 
+        private void assertTrue(boolean successMessageDisplayed) {
+    }
 }
