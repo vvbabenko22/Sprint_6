@@ -6,9 +6,7 @@ import pages.MainPage;
 import pages.FirstOrderPage;
 import pages.SecondOrderPage;
 import utils.DriverManager;
-
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // Гарантированно одноэкземплярный режим
@@ -26,8 +24,8 @@ class PositiveFlowTests {
         firstOrderPage = new FirstOrderPage(driver);
         secondOrderPage = new SecondOrderPage(driver);
         mainPage.open(); // Загрузка главной страницы
-        driver.manage().window().maximize();
-        mainPage.acceptCookies();
+        driver.manage().window().maximize(); // Разворачиваем на весь экран
+        mainPage.acceptCookies(); // Принимаем куки
     }
 
     @AfterEach
@@ -37,7 +35,7 @@ class PositiveFlowTests {
 
     @AfterAll
     void tearDown() {
-        DriverManager.quitDriver(); // Закрытие браузера после всех тестов
+        DriverManager.quitDriver(); // Завершаем работу браузера после всех тестов
     }
 
     // Тестируем позитивный сценарий через верхнюю кнопку "Заказать"

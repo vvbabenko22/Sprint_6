@@ -106,8 +106,8 @@ public class MainPage {
 
     // Метод возвращения на главную страницу
     public void goBackToHomepage() {
-        driver.get("https://qa-scooter.praktikum-services.ru"); // Перезагружаем страницу
+        driver.get("https://qa-scooter.praktikum-services.ru");
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.urlContains("scooter")); // Ждем загрузки домашней страницы
+                .until(ExpectedConditions.urlContains("scooter")); // Ждём загрузки домашней страницы
     }
 }

@@ -30,48 +30,48 @@ public class FirstOrderPage {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
     }
 
-    // Заполняет поле имени
+    // Метод для заполнения поля имя
     public void enterName(String name) {
         scrollToElement(NAME_FIELD);
         new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(NAME_FIELD).sendKeys(name);
     }
 
-    // Заполняет поле фамилии
+    // Метод для заполнения поля фамилия
     public void enterSurname(String surname) {
         scrollToElement(SURNAME_FIELD);
         new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(SURNAME_FIELD).sendKeys(surname);
     }
 
-    // Заполняет поле адреса
+    // Метод для заполнения поля адрес
     public void enterAddress(String address) {
         scrollToElement(ADDRESS_FIELD);
         new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(ADDRESS_FIELD).sendKeys(address);
     }
 
-    // Выбираем станцию метро
+    // Метод для выбора станции метро
     public void selectMetroStation(String station) {
         driver.findElement(METRO_STATION_FIELD).click();
         driver.findElement(By.xpath(".//*[@class='select-search__row'][2]")).click();
     }
 
-    // Заполняет поле телефона
+    // Метод для заполнения поля номер телефона
     public void enterPhoneNumber(String phone) {
         scrollToElement(PHONE_FIELD);
         new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(PHONE_FIELD).sendKeys(phone);
     }
 
-    // Переходит на следующий этап заказа
+    // Метод для перехода на второй этап заказа
     public void nextStep() {
         scrollToElement(NEXT_STEP_BUTTON);
         new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(NEXT_STEP_BUTTON).click();
     }
 
-    // Полностью заполняет первую страницу заказа
+    // Заполнение данными первой страницы заказа
     public void fillFirstPage(String name, String surname, String address, String station, String phone) {
         enterName(name);
         enterSurname(surname);
