@@ -41,20 +41,41 @@ class PositiveFlowTests {
     // Тестируем позитивный сценарий через верхнюю кнопку "Заказать"
     @Test
     void testPositiveScenarioThroughUpperButton() throws InterruptedException {
-        mainPage.clickUpperOrderButton(); // Нажимаем на верхнюю кнопку "Заказать"
-        TimeUnit.SECONDS.sleep(1); // Пауза на 1 секунду
-        firstOrderPage.fillFirstPage("Иван", "Иванов", "Москва ул. Ленина д.1", "Черкизовская", "+79991234567");
-        secondOrderPage.fillSecondPage("25 августа 2025", "сутки", "привезти вечером");
+        mainPage.clickUpperOrderButton();
+        TimeUnit.SECONDS.sleep(1);
+        firstOrderPage.fillFirstPage(
+                "Иван",
+                "Иванов",
+                "Москва ул. Ленина д.1",
+                2,          // Черкизовская
+                "+79991234567"
+        );
+        secondOrderPage.fillSecondPage(
+                "25 августа 2025",
+                1,           // Срок аренды: сутки (позиция 1)
+                "привезти вечером"
+        );
         assertTrue(secondOrderPage.isSuccessMessageDisplayed());
     }
 
     // Тестируем позитивный сценарий через нижнюю кнопку "Заказать"
     @Test
     void testPositiveScenarioThroughLowerButton() throws InterruptedException {
-        mainPage.clickLowerOrderButton(); // Нажимаем на нижнюю кнопку "Заказать"
-        TimeUnit.SECONDS.sleep(1); // Пауза на 1 секунду
-        firstOrderPage.fillFirstPage("Сергей", "Сергеев", "Санкт-Петербург ул. Невского д.10", "Черкизовская", "+79997654321");
-        secondOrderPage.fillSecondPage("25 сентября 2025", "сутки", "оставьте у двери");
+        mainPage.clickLowerOrderButton();
+        TimeUnit.SECONDS.sleep(1);
+        firstOrderPage.fillFirstPage(
+                "Сергей",
+                "Сергеев",
+                "Санкт-Петербург ул. Невского д.10",
+                4,          // Сокольники
+                "+79997654321"
+        );
+        secondOrderPage.fillSecondPage(
+                "25 сентября 2025",
+                2,           // Срок аренды: двое суток (позиция 2)
+                "оставьте у двери"
+        );
         assertTrue(secondOrderPage.isSuccessMessageDisplayed());
     }
+
 }

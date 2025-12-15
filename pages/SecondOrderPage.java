@@ -44,15 +44,15 @@ public class SecondOrderPage {
         driver.findElement(DATE_FIELD).sendKeys(deliveryDate);
     }
 
-    // Метод для клика на Про аренду после выбора даты доставки самоката
+    // Метод для клика на Про аренду после выбора даты доставки самоката, чтобы убрать календарь
     public void clickAboutOfRentLocator() {
         driver.findElement(ABOUT_RENT_LOCATOR).click();
     }
 
     // Метод выбора срока аренды из выпадающего списка
-    public void selectRentPeriod(String rentPeriod) {
+    public void selectRentPeriod(int periodPosition) {
         driver.findElement(RENT_PERIOD_SELECT).click();
-        driver.findElement(By.xpath(".//*[@class='Dropdown-option'][1]")).click();
+        driver.findElement(By.xpath(".//*[@class='Dropdown-option'][" + periodPosition + "]")).click();
     }
 
     // Метод для выбора цвета самоката
@@ -93,7 +93,7 @@ public class SecondOrderPage {
     }
 
     // Заполнение данными второй страницы заказа
-    public void fillSecondPage(String deliveryDate, String rentPeriod, String comment) {
+    public void fillSecondPage(String deliveryDate, int rentPeriod, String comment) {
         setDeliveryDate(deliveryDate);
         clickAboutOfRentLocator();
         selectRentPeriod(rentPeriod);

@@ -33,46 +33,41 @@ public class FirstOrderPage {
     // Метод для заполнения поля имя
     public void enterName(String name) {
         scrollToElement(NAME_FIELD);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(NAME_FIELD).sendKeys(name);
     }
 
     // Метод для заполнения поля фамилия
     public void enterSurname(String surname) {
         scrollToElement(SURNAME_FIELD);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(SURNAME_FIELD).sendKeys(surname);
     }
 
     // Метод для заполнения поля адрес
     public void enterAddress(String address) {
         scrollToElement(ADDRESS_FIELD);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(ADDRESS_FIELD).sendKeys(address);
     }
 
     // Метод для выбора станции метро
-    public void selectMetroStation(String station) {
+    public void selectMetroStation(int position) { // Передаётся номер позиции станции
         driver.findElement(METRO_STATION_FIELD).click();
-        driver.findElement(By.xpath(".//*[@class='select-search__row'][2]")).click();
+        driver.findElement(By.xpath(".//*[@class='select-search__row'][" + position + "]")).click();
     }
 
     // Метод для заполнения поля номер телефона
     public void enterPhoneNumber(String phone) {
         scrollToElement(PHONE_FIELD);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(PHONE_FIELD).sendKeys(phone);
     }
 
     // Метод для перехода на второй этап заказа
     public void nextStep() {
         scrollToElement(NEXT_STEP_BUTTON);
-        new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(NEXT_STEP_BUTTON).click();
     }
 
     // Заполнение данными первой страницы заказа
-    public void fillFirstPage(String name, String surname, String address, String station, String phone) {
+    public void fillFirstPage(String name, String surname, String address, int station, String phone) {
         enterName(name);
         enterSurname(surname);
         enterAddress(address);
