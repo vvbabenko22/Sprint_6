@@ -46,46 +46,6 @@ public class MainPage {
         driver.get("https://qa-scooter.praktikum-services.ru");
     }
 
-    // Метод для получения текста первого элемента
-    public String getFirstDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_FIRST_LOCATOR).getText();
-    }
-
-    // Метод для получения текста второго элемента
-    public String getSecondDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_SECOND_LOCATOR).getText();
-    }
-
-    // Метод для получения текста третьего элемента
-    public String getThirdDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_THIRD_LOCATOR).getText();
-    }
-
-    // Метод для получения текста четвёртого элемента
-    public String getFourthDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_FOURTH_LOCATOR).getText();
-    }
-
-    // Метод для получения текста пятого элемента
-    public String getFifthDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_FIFTH_LOCATOR).getText();
-    }
-
-    // Метод для получения текста шестого элемента
-    public String getSixthDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_SIXTH_LOCATOR).getText();
-    }
-
-    // Метод для получения текста седьмого элемента
-    public String getSeventhDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_SEVENTH_LOCATOR).getText();
-    }
-
-    // Метод для получения текста восьмого элемента
-    public String getEightDropdownText() {
-        return driver.findElement(DROPDOWN_TEXT_EIGHT_LOCATOR).getText();
-    }
-
     // Метод для нажатия на верхнюю кнопку Заказать
     public void clickUpperOrderButton() {
         driver.findElement(UPPER_ORDER_BUTTON).click();
@@ -98,7 +58,7 @@ public class MainPage {
 
     // Метод для принятия cookie
     public void acceptCookies() {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        new WebDriverWait(driver, Duration.ofSeconds(2))
                 .until(ExpectedConditions.elementToBeClickable(COOKIE_ACCEPT_BUTTON))
                 .click();
     }
@@ -106,7 +66,7 @@ public class MainPage {
     // Метод возвращения на главную страницу
     public void goBackToHomepage() {
         driver.get("https://qa-scooter.praktikum-services.ru");
-        new WebDriverWait(driver, Duration.ofSeconds(10))
+        new WebDriverWait(driver, Duration.ofSeconds(2))
                 .until(ExpectedConditions.urlContains("scooter")); // Ждём загрузки домашней страницы
     }
 }

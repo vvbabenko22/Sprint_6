@@ -1,93 +1,76 @@
 package test;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.MainPage;
 import utils.DriverManager;
+import java.time.Duration;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class DropdownTests {
+public class DropdownTests {
 
-    private WebDriver driver;
-    private MainPage page;
+    private static WebDriver driver;
+    private static MainPage page;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setupClass() {
         driver = DriverManager.getChromeDriver();
         page = new MainPage(driver);
         page.open(); // Открываем главную страницу
         driver.manage().window().maximize(); // Разворачиваем на весь экран
     }
 
-    @AfterEach
-    void tearDown() {
-        DriverManager.quitDriver(); // Завершаем работу браузера после каждого теста
+    @AfterAll
+    static void teardownClass() {
+        DriverManager.quitDriver(); // Завершаем работу браузера после всех тестов
     }
 
-    @Test
-    void testDropdownContent() throws InterruptedException {
+    // Генерируем список аргументов для тестов
 
-        // Метод для клика на первый элемент
-        WebElement firstTargetElement = driver.findElement(MainPage.FIRST_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", firstTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", firstTargetElement);
-        String firstContent = page.getFirstDropdownText();
-        assertEquals("", firstContent.trim()); // Проверяем текст первого элемента
-
-        // Метод для клика на второй элемент
-        WebElement secondTargetElement = driver.findElement(MainPage.SECOND_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", secondTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", secondTargetElement);
-        String secondContent = page.getSecondDropdownText();
-        assertEquals("", secondContent.trim()); // Проверяем текст второго элемента
-
-        // Метод для клика на третий элемент
-        WebElement thirdTargetElement = driver.findElement(MainPage.THIRD_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", thirdTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", thirdTargetElement);
-        String thirdContent = page.getThirdDropdownText();
-        assertEquals("", thirdContent.trim()); // Проверяем текст третьего элемента
-
-        // Метод для клика на четвёртый элемент
-        WebElement fourthTargetElement = driver.findElement(MainPage.FOURTH_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fourthTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fourthTargetElement);
-        String fourthContent = page.getFourthDropdownText();
-        assertEquals("", fourthContent.trim()); // Проверяем текст четвёртого элемента
-
-        // Метод для клика на пятый элемент
-        WebElement fifthTargetElement = driver.findElement(MainPage.FIFTH_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", fifthTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", fifthTargetElement);
-        String fifthContent = page.getFifthDropdownText();
-        assertEquals("", fifthContent.trim()); // Проверяем текст пятого элемента
-
-        // Метод для клика на шестой элемент
-        WebElement sixthTargetElement = driver.findElement(MainPage.SIXTH_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", sixthTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", sixthTargetElement);
-        String sixthContent = page.getSixthDropdownText();
-        assertEquals("", sixthContent.trim()); // Проверяем текст шестого элемента
-
-        // Метод для клика на седьмой элемент
-        WebElement seventhTargetElement = driver.findElement(MainPage.SEVENTH_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", seventhTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", seventhTargetElement);
-        String seventhContent = page.getSeventhDropdownText();
-        assertEquals("", seventhContent.trim()); // Проверяем текст седьмого элемента
-
-        // Метод для клика на восмой элемент
-        WebElement eightTargetElement = driver.findElement(MainPage.EIGHT_TARGET_ELEMENT);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", eightTargetElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", eightTargetElement);
-        String eightContent = page.getEightDropdownText();
-        assertEquals("", eightContent.trim()); // Проверяем текст восьмого элемента
-
+    public static List<Arguments> provideDropdownItems() {
+        return Stream.of(
+                Arguments.of(MainPage.FIRST_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_FIRST_LOCATOR, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."),
+                Arguments.of(MainPage.SECOND_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_SECOND_LOCATOR, "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим."),
+                Arguments.of(MainPage.THIRD_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_THIRD_LOCATOR, "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30."),
+                Arguments.of(MainPage.FOURTH_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_FOURTH_LOCATOR, "Только начиная с завтрашнего дня. Но скоро станем расторопнее."),
+                Arguments.of(MainPage.FIFTH_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_FIFTH_LOCATOR, "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010."),
+                Arguments.of(MainPage.SIXTH_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_SIXTH_LOCATOR, "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится."),
+                Arguments.of(MainPage.SEVENTH_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_SEVENTH_LOCATOR, "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."),
+                Arguments.of(MainPage.EIGHT_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_EIGHT_LOCATOR, "Да, обязательно. Всем самокатов! И Москве, и Московской области.")
+        ).collect(Collectors.toList());
     }
 
-    private void assertEquals(String s, String trim) {
+    // Параметризованный тест для проверки содержания раскрывающихся блоков
+
+    @ParameterizedTest(name = "Проверяем тексты вападающих элементов")
+    @MethodSource("provideDropdownItems")
+    void testDropdownContent(By targetElement, By textLocator, String expectedText) throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2)); // Ожидание
+
+        // Клик на элемент
+        WebElement element = driver.findElement(targetElement);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+
+        // Дополнительно небольшое ожидание после клика, иначе тесты падают
+        Thread.sleep(500);
+
+        // Получаем текст и выводим его в консоль
+        String actualContent = driver.findElement(textLocator).getText();
+        System.out.println(actualContent.trim());
+
+        // Проверяем соответствие текста
+        assertEquals(expectedText, actualContent.trim(), "Ошибка: текст элемента не совпадает с ожидаемым");
     }
 }
