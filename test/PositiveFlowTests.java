@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -29,7 +28,7 @@ class ParamTests {
 
     @BeforeAll
     void setUp() {
-        driver = DriverManager.getFirefoxDriver();
+        driver = DriverManager.getChromeDriver();
         mainPage = new MainPage(driver);
         firstOrderPage = new FirstOrderPage(driver);
         secondOrderPage = new SecondOrderPage(driver);
@@ -48,7 +47,7 @@ class ParamTests {
         DriverManager.quitDriver(); // Завершаем работу браузера после всех тестов
     }
 
-    // Метод, генерирующий наборы данных для тестов
+    // Генерируем наборы данных для тестов
     public static List<Arguments> provideTestData() {
         return Stream.of(
                 Arguments.of("верхнюю", "Иван", "Иванов", "Москва ул. Ленина д.1", 2, "+79991234567", "25 августа 2025", 1, "привезти вечером"),
@@ -56,8 +55,8 @@ class ParamTests {
         ).collect(Collectors.toList());
     }
 
-    // Параметризованный тест с выбором типа кнопки и соответствующими данными
-    @ParameterizedTest(name = "Тестируем создание заказа через {0}-ю кнопку")
+    // Параметризованный тест с выбором кнопки и соответствующих данных
+    @ParameterizedTest(name = "Тестируем создание заказа через разные данные")
     @MethodSource("provideTestData")
     void testPositiveScenarioThroughButton(String buttonType,
                                            String name,
@@ -68,7 +67,7 @@ class ParamTests {
                                            String deliveryDate,
                                            int rentPeriod,
                                            String comment) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Ждём максимум 10 секунд
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1)); // Явное ожидание
 
         // Выбираем кнопку в зависимости от параметра
         if ("верхнюю".equals(buttonType)) {

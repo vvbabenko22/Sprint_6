@@ -26,7 +26,7 @@ public class DropdownTests {
 
     @BeforeAll
     static void setupClass() {
-        driver = DriverManager.getFirefoxDriver();
+        driver = DriverManager.getChromeDriver();
         page = new MainPage(driver);
         page.open(); // Открываем главную страницу
         driver.manage().window().maximize(); // Разворачиваем на весь экран
