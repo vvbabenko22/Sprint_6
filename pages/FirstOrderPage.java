@@ -73,4 +73,6 @@ public class FirstOrderPage {
         nextStep();
     }
 
+    public void fillFirstPage(String name, String address, int metroStation, String phone) {
+    }
 }
