@@ -76,15 +76,6 @@ public class SecondOrderPage {
         driver.findElement(CONFIRM_ORDER_BUTTON).click();
     }
 
-    // Метод для проверки наличия сообщения об успешном заказе
-    public boolean isSuccessMessageDisplayed() {
-        try {
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     // Заполнение данными второй страницы заказа
     public void fillSecondPage(String deliveryDate, int rentPeriod, String comment) {
         setDeliveryDate(deliveryDate);

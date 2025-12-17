@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.MainPage;
 import utils.DriverManager;
@@ -25,7 +26,7 @@ public class DropdownTests {
 
     @BeforeAll
     static void setupClass() {
-        driver = DriverManager.getChromeDriver();
+        driver = DriverManager.getFirefoxDriver();
         page = new MainPage(driver);
         page.open(); // Открываем главную страницу
         driver.manage().window().maximize(); // Разворачиваем на весь экран
@@ -37,7 +38,6 @@ public class DropdownTests {
     }
 
     // Генерируем список аргументов для тестов
-
     public static List<Arguments> provideDropdownItems() {
         return Stream.of(
                 Arguments.of(MainPage.FIRST_TARGET_ELEMENT, MainPage.DROPDOWN_TEXT_FIRST_LOCATOR, "Сутки — 400 рублей. Оплата курьеру — наличными или картой."),
@@ -52,19 +52,18 @@ public class DropdownTests {
     }
 
     // Параметризованный тест для проверки содержания раскрывающихся блоков
-
-    @ParameterizedTest(name = "Проверяем тексты вападающих элементов")
+    @ParameterizedTest(name = "Проверяем тексты раскрывающихся элементов")
     @MethodSource("provideDropdownItems")
     void testDropdownContent(By targetElement, By textLocator, String expectedText) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2)); // Ожидание
 
         // Клик на элемент
         WebElement element = driver.findElement(targetElement);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center'});", element);
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
 
-        // Дополнительно небольшое ожидание после клика, иначе тесты падают
-        Thread.sleep(500);
+        // Ждём появления текста после раскрытия элемента
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(textLocator));
 
         // Получаем текст и выводим его в консоль
         String actualContent = driver.findElement(textLocator).getText();

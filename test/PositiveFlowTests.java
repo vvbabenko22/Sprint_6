@@ -2,11 +2,13 @@ package test;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.MainPage;
 import pages.FirstOrderPage;
 import pages.SecondOrderPage;
 import utils.DriverManager;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS) // Гарантированно одноэкземплярный режим
 class PositiveFlowTests {
@@ -18,7 +20,7 @@ class PositiveFlowTests {
 
     @BeforeAll
     void setUp() {
-        driver = DriverManager.getChromeDriver();
+        driver = DriverManager.getFirefoxDriver();
         mainPage = new MainPage(driver);
         firstOrderPage = new FirstOrderPage(driver);
         secondOrderPage = new SecondOrderPage(driver);
@@ -39,32 +41,40 @@ class PositiveFlowTests {
 
     // Тестируем позитивный сценарий через верхнюю кнопку "Заказать"
     @Test
-    void testPositiveScenarioThroughUpperButton() throws InterruptedException {
+    void testPositiveScenarioThroughUpperButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2)); // Явное ожидание
+
         mainPage.clickUpperOrderButton();
-        TimeUnit.SECONDS.sleep(1);
+
         firstOrderPage.fillFirstPage(
                 "Иван",
                 "Иванов",
                 "Москва ул. Ленина д.1",
-                2,          // Черкизовская
+                2, // Черкизовская
                 "+79991234567"
         );
-        secondOrderPage.fillSecondPage(
-                "25 августа 2025",
-                1,           // Срок аренды: сутки (позиция 1)
-                "привезти вечером"
-        );
-        Thread.sleep(2000); // Пауза перед подтверждением заказа
+
+        secondOrderPage.setDeliveryDate("25 августа 2025");
+        secondOrderPage.clickAboutOfRentLocator(); // Кликаем после выбора даты, чтобы закрыть календарь
+        secondOrderPage.selectRentPeriod(1); // Срок аренды: сутки (позиция 1)
+        secondOrderPage.addComment("привезти вечером");
+        secondOrderPage.placeOrder(); // Нажимаем Заказать
         secondOrderPage.confirmOrder(); // Подтверждаем заказ
-        Thread.sleep(2000); // Пауза перед проверкой успеха
-        assertTrue(secondOrderPage.isSuccessMessageDisplayed()); // Проверяем наличие сообщения об успехе
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SecondOrderPage.SUCCESS_MESSAGE)); // Ждём появления сообщения об успехе
+
+        // Проверяем, что заказ оформлен
+        String successText = driver.findElement(SecondOrderPage.SUCCESS_MESSAGE).getText();
+        Assertions.assertTrue(successText.contains("Заказ оформлен"), "Сообщение об успешном оформлении заказа отсутствует!");
     }
 
     // Тестируем позитивный сценарий через нижнюю кнопку "Заказать"
     @Test
-    void testPositiveScenarioThroughLowerButton() throws InterruptedException {
+    void testPositiveScenarioThroughLowerButton() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(1)); // Явное ожидание
+
         mainPage.clickLowerOrderButton();
-        TimeUnit.SECONDS.sleep(1);
+
         firstOrderPage.fillFirstPage(
                 "Сергей",
                 "Сергеев",
@@ -72,18 +82,18 @@ class PositiveFlowTests {
                 4, // Сокольники
                 "+79997654321"
         );
-        secondOrderPage.fillSecondPage(
-                "25 сентября 2025",
-                2, // Срок аренды: двое суток (позиция 2)
-                "оставьте у двери"
-        );
 
-        Thread.sleep(2000); // Пауза перед подтверждением заказа
+        secondOrderPage.setDeliveryDate("25 сентября 2025");
+        secondOrderPage.clickAboutOfRentLocator(); // Кликаем после выбора даты, чтобы закрыть календарь
+        secondOrderPage.selectRentPeriod(2); // Срок аренды: двое суток (позиция 2)
+        secondOrderPage.addComment("оставьте у двери");
+        secondOrderPage.placeOrder(); // Нажимаем Заказать
         secondOrderPage.confirmOrder(); // Подтверждаем заказ
-        Thread.sleep(2000); // Пауза перед проверкой успеха
-        assertTrue(secondOrderPage.isSuccessMessageDisplayed()); // Проверяем наличие сообщения об успехе
-    }
 
-        private void assertTrue(boolean successMessageDisplayed) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(SecondOrderPage.SUCCESS_MESSAGE)); // Ждём появления сообщения об успехе
+
+        // Проверяем, что заказ оформлен
+        String successText = driver.findElement(SecondOrderPage.SUCCESS_MESSAGE).getText();
+        Assertions.assertTrue(successText.contains("Заказ оформлен"), "Сообщение об успешном оформлении заказа отсутствует!");
     }
 }
