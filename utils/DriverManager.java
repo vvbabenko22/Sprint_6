@@ -2,16 +2,16 @@ package utils;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 public class DriverManager {
 
-    static WebDriver driver;
+    private static WebDriver driver;
 
-    public static synchronized WebDriver getFirefoxDriver() {
+    public static WebDriver getChromeDriver() {
         if (driver == null) {
-            WebDriverManager.firefoxdriver().setup();
-            driver = new FirefoxDriver();
+            WebDriverManager.chromedriver().setup();
+            driver = new ChromeDriver();
         }
         return driver;
     }
